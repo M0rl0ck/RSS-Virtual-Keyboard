@@ -79,7 +79,7 @@ const ru = [
   {
     small: '-',
     shift: '_',
-    code: 'NumpadSubtract',
+    code: 'Minus',
     type: 'digit',
     isFn: false,
   },
@@ -530,7 +530,7 @@ const en = [
   {
     small: '-',
     shift: '_',
-    code: 'NumpadSubtract',
+    code: 'Minus',
     type: 'digit',
     isFn: false,
   },
