@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-size: 20px;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 40px;
+    color: rgb(38, 7, 66);
+    margin: 10px 0;
+}
+p {
+    margin: 10px 0;
+    font-size: 20px;
+}
+
+.out {
+    font-size: 20px;
+    resize: none;
+    padding: 10px;
+}

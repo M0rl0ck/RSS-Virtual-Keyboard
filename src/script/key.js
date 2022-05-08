@@ -31,7 +31,7 @@ export default class Key {
 
   createKey() {
     const conteiner = document.createElement('div');
-    conteiner.className = 'key';
+    conteiner.className = `key ${this.type}`;
     conteiner.append(this.subLetter, this.letter);
     return conteiner;
   }
