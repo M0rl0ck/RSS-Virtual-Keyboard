@@ -7,18 +7,31 @@
     background: rgb(7, 78, 136);
     border-style: solid;
     border-color: aquamarine;
-    border-radius: 10%;
+    border-radius: 5px;
     box-shadow: 5px 5px rgb(2, 131, 88);
     transition: all .3s;
     &:hover {
         color: red;
-        // transform: translate(2px, 2px);
-        // box-shadow: 3px 3px rgb(2, 131, 88);
+       
 
     }
 
     &>.sub {
         display: none;
+    }
+
+    &_pressed {
+        transform: translate(2px, 2px);
+        box-shadow: 3px 3px rgb(2, 131, 88);
+    }
+
+    &_shift {
+        .sub {
+            display: block;
+        }
+        .letter {
+            display: none;
+        }
     }
 }
 
@@ -38,6 +51,10 @@
     width: 110px;
 }
 
+.Ctrl, .Win, .Alt {
+    width: 50px;
+} 
+
 .Space {
-    width: 340px;
+    width: 370px;
 }

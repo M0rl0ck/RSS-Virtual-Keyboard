@@ -38,6 +38,8 @@ export default class Key {
     if (this.code === 'Space') {
       conteiner.classList.add('Space');
     }
+    conteiner.dataset.code = this.code;
+    conteiner.dataset.fn = this.isFn;
     conteiner.append(this.subLetter, this.letter);
     return conteiner;
   }
