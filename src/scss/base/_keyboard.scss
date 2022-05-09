@@ -1,15 +1,17 @@
 .keyboard {
     width: 1000px;
-    height: 400px;
+    height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 10px;
     background-color: rgb(44, 44, 73);
+    border-radius: 60px 20px 20px 20px;
     color: aliceblue;
 }
 
 .keyboard__row {
     display: flex;
+    gap: 10px;
 }

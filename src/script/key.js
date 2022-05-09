@@ -32,6 +32,12 @@ export default class Key {
   createKey() {
     const conteiner = document.createElement('div');
     conteiner.className = `key ${this.type}`;
+    if (this.isFn) {
+      conteiner.classList.add(this.small);
+    }
+    if (this.code === 'Space') {
+      conteiner.classList.add('Space');
+    }
     conteiner.append(this.subLetter, this.letter);
     return conteiner;
   }

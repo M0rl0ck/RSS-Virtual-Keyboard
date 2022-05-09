@@ -1,19 +1,14 @@
 /* eslint-disable import/extensions */
 import Key from './Key.js';
-import { ru, en } from './const.js';
 
 export default class Keyboard {
-  constructor(rows, lang) {
+  constructor(rows, keyBase) {
     this.rows = rows;
 
     this.keys = [];
     this.keyPressed = {};
     this.caps = false;
-    if (lang === 'ru') {
-      this.keyBase = ru;
-    } else if (lang === 'en') {
-      this.keyBase = en;
-    }
+    this.keyBase = keyBase;
   }
 
   generate() {

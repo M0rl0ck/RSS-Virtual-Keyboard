@@ -1,0 +1,43 @@
+.key {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(7, 78, 136);
+    border-style: solid;
+    border-color: aquamarine;
+    border-radius: 10%;
+    box-shadow: 5px 5px rgb(2, 131, 88);
+    transition: all .3s;
+    &:hover {
+        color: red;
+        // transform: translate(2px, 2px);
+        // box-shadow: 3px 3px rgb(2, 131, 88);
+
+    }
+
+    &>.sub {
+        display: none;
+    }
+}
+
+.fn {
+    background: rgb(1, 32, 58);
+}
+
+.Backspace {
+    width: 115px;
+    }
+
+.Delete {
+    width: 60px;
+}
+
+.CapsLock, .Enter, .Shift {
+    width: 110px;
+}
+
+.Space {
+    width: 340px;
+}
