@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable import/extensions */
 
 import Keyboard from './script/Keyboard.js';
@@ -11,14 +12,17 @@ const rows = [
   ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'],
 ];
 
-const lang = JSON.parse(window.localStorage.getItem('lang')) || 'ru';
+let lang = JSON.parse(window.localStorage.getItem('lang')) || 'ru';
 let keyBase = '';
+const changeBase = () => {
+  if (lang === 'ru') {
+    keyBase = ru;
+  } else if (lang === 'en') {
+    keyBase = en;
+  }
+};
 
-if (lang === 'ru') {
-  keyBase = ru;
-} else if (lang === 'en') {
-  keyBase = en;
-}
+changeBase();
 
 const main = document.createElement('main');
 main.className = 'main';
@@ -58,6 +62,38 @@ function printDigit(key) {
   }
 }
 
+function initLang() {
+  keyboard.keyBase = keyBase;
+  keyboard.keys.forEach((element) => {
+    const obj = keyBase.find((el) => el.code === element.code);
+    element.letter.innerHTML = obj.small;
+    element.small = obj.small;
+    element.subLetter.innerHTML = obj.shift;
+    element.shift = obj.shift;
+    if (element.code === 'Backquote') {
+      element.type = obj.type;
+      element.containerKey.classList.remove('letter');
+      element.containerKey.classList.remove('digit');
+      if (obj.type === 'digit') {
+        element.containerKey.classList.add('digit');
+      } else {
+        element.containerKey.classList.add('letter');
+      }
+    }
+  });
+}
+
+function changeLang() {
+  if (lang === 'ru') {
+    lang = 'en';
+  } else {
+    lang = 'ru';
+  }
+
+  changeBase();
+  initLang();
+}
+
 function pressFn(key) {
   if (key.code === 'ShiftRight' || key.code === 'ShiftLeft') {
     keyboard.keys.forEach((el) => {
@@ -65,6 +101,15 @@ function pressFn(key) {
         el.containerKey.classList.add('key_shift');
       }
     });
+    if (keyboard.keyPressed.AltLeft || keyboard.keyPressed.AltRight) {
+      changeLang();
+    }
+  }
+
+  if (key.code === 'AltRight' || key.code === 'AltLeft') {
+    if (keyboard.keyPressed.ShiftRight || keyboard.keyPressed.ShiftLeft) {
+      changeLang();
+    }
   }
 }
 
@@ -78,16 +123,7 @@ function unPressFn(key) {
   }
 }
 
-const pressKey = (e) => {
-  const keyOrNot = e.target.closest('.key');
-  if (!keyOrNot) {
-    return;
-  }
-  keyOrNot.classList.add('key_pressed');
-  if (!keyboard.keyPressed[keyOrNot.dataset.code]) {
-    keyboard.keyPressed[keyOrNot.dataset.code] = true;
-  }
-  const key = keyboard.keys.find((element) => keyOrNot.dataset.code === element.code);
+const pressKey = (key) => {
   if (key.type === 'letter') {
     printLetter(key);
   }
@@ -99,7 +135,20 @@ const pressKey = (e) => {
   }
 };
 
-const upKey = (e) => {
+const pressVirtualKeyboardKey = (e) => {
+  const keyOrNot = e.target.closest('.key');
+  if (!keyOrNot) {
+    return;
+  }
+  keyOrNot.classList.add('key_pressed');
+  if (!keyboard.keyPressed[keyOrNot.dataset.code]) {
+    keyboard.keyPressed[keyOrNot.dataset.code] = true;
+  }
+  const key = keyboard.keys.find((element) => keyOrNot.dataset.code === element.code);
+  pressKey(key);
+};
+
+const upVirtualKeyboardKey = (e) => {
   const keyOrNot = e.target.closest('.key');
   if (!keyOrNot) {
     return;
@@ -119,16 +168,20 @@ const pressKeyboardKey = (e) => {
   if (!keyboard.keyPressed[key.containerKey.dataset.code]) {
     keyboard.keyPressed[key.containerKey.dataset.code] = true;
   }
+  pressKey(key);
 };
 
 const upKeyboardKey = (e) => {
   const key = keyboard.keys.find((element) => e.code === element.code);
   key.containerKey.classList.remove('key_pressed');
   keyboard.keyPressed[key.containerKey.dataset.code] = false;
+  if (key.isFn) {
+    unPressFn(key);
+  }
 };
 
-keyboard.container.addEventListener('mousedown', pressKey);
+keyboard.container.addEventListener('mousedown', pressVirtualKeyboardKey);
 document.addEventListener('keydown', pressKeyboardKey);
-keyboard.container.addEventListener('mouseup', upKey);
+keyboard.container.addEventListener('mouseup', upVirtualKeyboardKey);
 document.addEventListener('keyup', upKeyboardKey);
-keyboard.container.addEventListener('mouseout', upKey);
+keyboard.container.addEventListener('mouseout', upVirtualKeyboardKey);
