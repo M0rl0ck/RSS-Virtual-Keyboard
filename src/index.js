@@ -12,7 +12,7 @@ const rows = [
   ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'],
 ];
 
-let lang = JSON.parse(window.localStorage.getItem('lang')) || 'ru';
+let lang = (window.localStorage.getItem('lang')) || 'ru';
 let keyBase = '';
 const changeBase = () => {
   if (lang === 'ru') {
@@ -90,8 +90,42 @@ function changeLang() {
     lang = 'ru';
   }
 
+  (window.localStorage.setItem('lang', lang));
+
   changeBase();
   initLang();
+}
+
+function deleteSimbol(a) {
+  if (a) {
+    if (out.selectionEnd >= out.value.length) {
+      return;
+    }
+    out.setRangeText('', out.selectionStart, out.selectionEnd + 1, 'end');
+  } else {
+    if (out.selectionStart <= 0) {
+      return;
+    }
+    out.setRangeText('', out.selectionStart - 1, out.selectionEnd, 'end');
+  }
+}
+
+function moveCursor(key) {
+  out.setRangeText(key.small, out.selectionStart, out.selectionEnd, 'end');
+}
+
+function pressCaps(key) {
+  if (!keyboard.caps) {
+    keyboard.caps = true;
+    keyboard.container.classList.add('caps__pressed');
+    key.containerKey.classList.add('caps__aktive');
+    return;
+  }
+  if (keyboard.caps) {
+    keyboard.caps = false;
+    keyboard.container.classList.remove('caps__pressed');
+    key.containerKey.classList.remove('caps__aktive');
+  }
 }
 
 function pressFn(key) {
@@ -101,15 +135,36 @@ function pressFn(key) {
         el.containerKey.classList.add('key_shift');
       }
     });
-    if (keyboard.keyPressed.AltLeft || keyboard.keyPressed.AltRight) {
+  }
+  if (key.code === 'ControlLeft') {
+    if (keyboard.keyPressed.AltLeft) {
       changeLang();
     }
   }
 
-  if (key.code === 'AltRight' || key.code === 'AltLeft') {
-    if (keyboard.keyPressed.ShiftRight || keyboard.keyPressed.ShiftLeft) {
+  if (key.code === 'AltLeft') {
+    if (keyboard.keyPressed.ControlLeft) {
       changeLang();
     }
+  }
+
+  if (key.code === 'Enter') {
+    out.setRangeText('\n', out.selectionStart, out.selectionEnd, 'end');
+  }
+
+  if (key.code === 'ArrowUp' || key.code === 'ArrowLeft' || key.code === 'ArrowDown' || key.code === 'ArrowRight') {
+    moveCursor(key);
+  }
+  if (key.code === 'Backspace') {
+    deleteSimbol(0);
+  }
+
+  if (key.code === 'Delete') {
+    deleteSimbol(1);
+  }
+
+  if (key.code === 'CapsLock') {
+    pressCaps(key);
   }
 }
 

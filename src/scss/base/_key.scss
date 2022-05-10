@@ -12,8 +12,6 @@
     transition: all .3s;
     &:hover {
         color: red;
-       
-
     }
 
     &>.sub {
@@ -37,7 +35,12 @@
 
 .fn {
     background: rgb(1, 32, 58);
+    &.caps__aktive {
+    background: rgb(26, 237, 57);
 }
+}
+
+
 
 .Backspace {
     width: 115px;
@@ -57,4 +60,22 @@
 
 .Space {
     width: 370px;
+}
+
+.caps__pressed .letter {
+    .sub {
+        display: block;
+    }
+    .letter {
+        display: none;
+    }
+
+    &.key_shift {
+        .sub {
+            display: none;
+        }
+        .letter {
+            display: block;
+        } 
+    }
 }
