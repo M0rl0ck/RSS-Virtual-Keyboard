@@ -166,6 +166,9 @@ function pressFn(key) {
   if (key.code === 'CapsLock') {
     pressCaps(key);
   }
+  if (key.code === 'Tab') {
+    out.setRangeText('\t', out.selectionStart, out.selectionEnd, 'end');
+  }
 }
 
 function unPressFn(key) {
@@ -188,6 +191,7 @@ const pressKey = (key) => {
   if (key.isFn) {
     pressFn(key);
   }
+  out.focus();
 };
 
 const pressVirtualKeyboardKey = (e) => {
@@ -214,6 +218,7 @@ const upVirtualKeyboardKey = (e) => {
   if (key.isFn) {
     unPressFn(key);
   }
+  out.focus();
 };
 
 const pressKeyboardKey = (e) => {
@@ -233,6 +238,7 @@ const upKeyboardKey = (e) => {
   if (key.isFn) {
     unPressFn(key);
   }
+  out.focus();
 };
 
 keyboard.container.addEventListener('mousedown', pressVirtualKeyboardKey);
